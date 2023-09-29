@@ -1,9 +1,19 @@
-import User from "../interfaces/user.interfaces"
-import UserModel from "../models/user"
+import { IUser } from "../utils/interfaces";
+import UserModel from "../models/user";
 
-const insertUser = async (item: User) =>{
-const responseInsert = await UserModel.create(item);
-return responseInsert
-}
+export const insertUser = async (userData: IUser): Promise<IUser> => {
+  const response = new UserModel(userData);
+  await response.save();
+  return response;
+};
 
-export {insertUser}
+export const getUserById = async (id: string): Promise<IUser | null> => {
+  const response = await UserModel.findById(id);
+  return response;
+};
+
+export const getUserByUsername = async ( username: string ): Promise<IUser | null> => {
+
+  const response = await UserModel.findOne({ username });
+  return response;
+};

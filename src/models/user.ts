@@ -1,25 +1,47 @@
-import { Schema, model } from "mongoose";
-import User from "../interfaces/user.interfaces";
+import { Schema, model} from "mongoose";
+import bcrypt from "bcrypt";
+import { IUser } from "../utils/interfaces";
 
-
-
-const UserSchema = new Schema<User>(
-    {
-    user: {
-        type: String
+const UserSchema = new Schema<IUser>(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
-        type: String
+      type: String,
+      required: true,
     },
-    fullname: {
-        type: String
-    }
+    firstName: {
+      type: String,
+      required: true,
     },
-    {
-        timestamps: true,
-        versionKey:false,
-    }
+    lastName: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 
-const UserModel = model('users', UserSchema);
-export default UserModel
+UserSchema.pre<IUser>('save', async function (next) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(user.password, salt);
+
+  user.password = hash;
+  next();
+});
+
+UserSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
+  return await bcrypt.compare(password, this.password);
+}
+
+const UserModel = model("user", UserSchema);
+export default UserModel;
