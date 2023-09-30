@@ -12,7 +12,7 @@ export interface INote extends Document {
   name: string;
   content: string;
   creatorId: string;
-  folderId: string;
+  folderId?: string;
 }
 
 export interface IFolder extends Document {
