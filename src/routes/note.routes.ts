@@ -1,11 +1,12 @@
 import { Router } from "express";
 import passport from "passport";
+import { getNotes, insertNote } from "../controllers/note.controller";
 
-const router = Router()
+const NoteRouter = Router()
 
-router.get('/note', passport.authenticate("jwt"), 
-(req, res)=> {
-    res.send('succes')
-})
+NoteRouter.get('/:creatorId', passport.authenticate("jwt", {session:false}), 
+getNotes)
 
-export default router
+NoteRouter.post('/', passport.authenticate("jwt",{session:false}),
+insertNote)
+export default NoteRouter

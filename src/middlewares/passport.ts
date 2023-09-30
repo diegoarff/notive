@@ -7,7 +7,7 @@ const opts: StrategyOptions = {
 }
 
 
-const strategy = new Strategy(opts, async(payload, done)=>{
+export default new Strategy(opts, async(payload, done)=>{
   try {
    const user = await getUserById(payload.id);
   if (user) {
@@ -20,4 +20,3 @@ const strategy = new Strategy(opts, async(payload, done)=>{
  
 })
 
-export default strategy

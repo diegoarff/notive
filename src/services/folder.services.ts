@@ -9,7 +9,7 @@ export const insertFolder = async (folderData:IFolder): Promise<IFolder> => {
     return response
 }
 
-export const getFolders = async (): Promise<IFolder[] | null> => {
-    const response = await FolderModel.find();
+export const getFoldersByCreatorId = async (creatorId:string): Promise<IFolder[] | null> => {
+    const response = await FolderModel.find({creatorId:creatorId}).exec();
     return response;
 }
