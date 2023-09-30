@@ -23,8 +23,14 @@ export const register = async (req: Request, res: Response) => {
       .status(400)
       .json({ msg: "Please. Send the data in the correct format" });
   }
-
+  
   try {
+    const checkUser = await getUserByUsername(username)
+  if (checkUser) {
+    return res.status(400)
+    .json({msg: "The user already exist"})
+  }
+  
     const user = await insertUser(req.body);
     return res.status(201).json(user);
   } catch (error) {
