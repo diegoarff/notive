@@ -19,7 +19,7 @@ export const register = async (req: Request, res: Response) => {
 
     return res.status(201).json({ msg: "User created succesfully" });
   } catch (error) {
-    return res.status(500).json({ msg: "Internal server error in controller", error });
+    return res.status(500).json({ msg: "Internal server error", error });
   }
 };
 
@@ -44,6 +44,6 @@ export const login = async (req: Request, res: Response) => {
         .json({ path: "password", msg: "Password is incorrect" });
     }
   } catch (error) {
-    return res.status(500).json({ msg: "Internal server error" });
+    return res.status(500).json({ msg: "Internal server error", error });
   }
 };

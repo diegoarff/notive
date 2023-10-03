@@ -7,7 +7,7 @@ const NoteSchema = new Schema<INote>(
       type: String,
       required: true,
     },
-    name: {
+    title: {
       type: String,
       required: true,
     },

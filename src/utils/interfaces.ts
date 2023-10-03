@@ -10,7 +10,7 @@ export interface IUser extends Document {
 }
 
 export interface INote extends Document {
-  name: string;
+  title: string;
   content: string;
   creatorId: string;
   folderId?: string;

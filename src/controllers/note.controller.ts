@@ -1,29 +1,18 @@
 import { Request, Response } from "express";
 import {
+  checkNoteExists,
   getNotesByCreatorId,
   insertNote,
+  updateNote,
+  eraseNote,
 } from "../services/note.services";
-import { INote } from "../utils/interfaces";
 
 export const postNote = async (req: Request, res: Response) => {
-  const { name, content, creatorId }: INote = req.body;
-  if (!name || !content || !creatorId) {
-    return res.status(400).json({ msg: "Please. Send your data" });
-  }
-  if (
-    typeof name !== "string" ||
-    typeof content !== "string" ||
-    typeof creatorId !== "string"
-  ) {
-    return res
-      .status(400)
-      .json({ msg: "Please. Send the data in the correct format" });
-  }
   try {
     const note = await insertNote(req.body);
-    res.status(200).json(note);
+    res.status(201).json({ msg: "Note created succesfully", data: note });
   } catch (error) {
-    return res.status(500).json({ msg: "Server error" });
+    return res.status(500).json({ msg: "Internal server error", error });
   }
 };
 
@@ -32,10 +21,57 @@ export const getNotes = async (req: Request, res: Response) => {
   if (!creatorId) {
     return res.status(400).json({ msg: "CreatorId not found" });
   }
+
+  // TODO: check if users exists
+
   try {
     const notes = await getNotesByCreatorId(creatorId);
-    return res.status(200).json({ notes });
+    return res.status(200).json({ data: notes });
   } catch (error) {
-    return res.status(500).json({ msg: "Server error" });
+    return res.status(500).json({ msg: "Internal server error", error });
+  }
+};
+
+export const putNote = async (req: Request, res: Response) => {
+  const { noteId } = req.params;
+  if (!noteId) {
+    return res.status(400).json({ msg: "NoteId must be provided" });
+  }
+
+  try {
+    const noteExist = await checkNoteExists(noteId);
+    if (!noteExist) {
+      return res.status(404).json({ msg: "Note not found" });
+    }
+
+    const note = await updateNote(noteId, req.body);
+
+    return res
+      .status(200)
+      .json({ msg: "Note updated succesfully", data: note });
+  } catch (error) {
+    return res.status(500).json({ msg: "Internal server error", error });
+  }
+};
+
+export const deleteNote = async (req: Request, res: Response) => {
+  const { noteId } = req.params;
+  if (!noteId) {
+    return res.status(400).json({ msg: "NoteId must be provided" });
+  }
+
+  try {
+    const noteExist = await checkNoteExists(noteId);
+    if (!noteExist) {
+      return res.status(404).json({ msg: "Note not found" });
+    }
+
+    const deletedNote = await eraseNote(noteId);
+
+    return res
+      .status(200)
+      .json({ msg: "Note deleted succesfully", data: deletedNote });
+  } catch (error) {
+    return res.status(500).json({ msg: "Internal server error", error });
   }
 };
