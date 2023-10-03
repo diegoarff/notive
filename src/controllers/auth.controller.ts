@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import {
   insertUser,
-  checkUserExist,
+  checkUserExistByUsername,
   getUserByUsername,
 } from "../services/user.services";
 import { IUser } from "../utils/interfaces";
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const userExists = await checkUserExist(req.body.username);
+    const userExists = await checkUserExistByUsername(req.body.username);
     if (userExists) {
       return res
         .status(400)

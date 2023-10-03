@@ -17,8 +17,14 @@ export const getUserByUsername = async ( username: string ): Promise<IUser | nul
   return response;
 };
 
-export const checkUserExist = async (username: string): Promise<boolean> => {
+export const checkUserExistsById = async (id: string): Promise<boolean> => {
+  const response = await UserModel.exists({ _id: id });
+  return response ? true : false;
+}
+
+export const checkUserExistByUsername = async (username: string): Promise<boolean> => {
   const response = await UserModel.findOne({ username });
   return response ? true : false;
 };
+
 

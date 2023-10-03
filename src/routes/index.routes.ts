@@ -11,5 +11,6 @@ const router = Router()
 
 router.use('/auth', authRouter)
 router.use("/notes", passport.authenticate("jwt", { session: false }), noteRouter);
+router.use("/folders", passport.authenticate("jwt", { session: false }), folderRouter);
 
 export default router

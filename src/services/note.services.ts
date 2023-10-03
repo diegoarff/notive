@@ -19,7 +19,10 @@ export const getNotesByCreatorId = async (
   return response;
 };
 
-export const updateNote = async (id: string, noteData: INote): Promise<INote | null> => {
+export const updateNote = async (
+  id: string,
+  noteData: INote
+): Promise<INote | null> => {
   const response = await NoteModel.findByIdAndUpdate(id, noteData, {
     new: true,
   }).exec();

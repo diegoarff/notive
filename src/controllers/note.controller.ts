@@ -6,6 +6,7 @@ import {
   updateNote,
   eraseNote,
 } from "../services/note.services";
+import { checkUserExistsById } from "../services/user.services";
 
 export const postNote = async (req: Request, res: Response) => {
   try {
@@ -22,7 +23,11 @@ export const getNotes = async (req: Request, res: Response) => {
     return res.status(400).json({ msg: "CreatorId not found" });
   }
 
-  // TODO: check if users exists
+  const userExist = await checkUserExistsById(creatorId);
+
+  if (!userExist) {
+    return res.status(404).json({ msg: "User not found" });
+  }
 
   try {
     const notes = await getNotesByCreatorId(creatorId);
@@ -35,7 +40,7 @@ export const getNotes = async (req: Request, res: Response) => {
 export const putNote = async (req: Request, res: Response) => {
   const { noteId } = req.params;
   if (!noteId) {
-    return res.status(400).json({ msg: "NoteId must be provided" });
+    return res.status(400).json({ msg: "noteId must be provided" });
   }
 
   try {
