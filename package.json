@@ -8,7 +8,12 @@
     "start": "node dist/index.js",
     "lint": "eslint --fix . --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write .",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": "prettier --write --ignore-unknown"
   },
   "keywords": [],
   "author": "",

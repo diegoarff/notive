@@ -7,10 +7,6 @@ import mainRouter from './routes/index.routes';
 // Inits
 const app = express();
 
-debugger
-
-debugger
-
 // Settings
 app.set('port', process.env.PORT ?? 4000);
 
