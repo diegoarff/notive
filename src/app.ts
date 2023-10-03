@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
+import passport from "passport";
 
 // Routes imports
-import authRoutes from "./routes/auth.routes";
-import passport from "passport";
+import AuthRouter from "./routes/auth.routes";
 import passportMiddleware from "./middlewares/passport";
 import NoteRouter from "./routes/note.routes";
 
@@ -17,13 +17,14 @@ app.set("port", process.env.PORT || 4000);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(passport.initialize())
-passport.use(passportMiddleware)
+app.use(passport.initialize());
+passport.use(passportMiddleware);
 // Routes
 app.get("/", (req, res) => {
   res.send(`The API is at http://localhost:${app.get("port")}`);
 });
 
-app.use("/auth", authRoutes);
-app.use("/notes", NoteRouter)
+app.use("/auth", AuthRouter);
+app.use("/notes", passport.authenticate("jwt", { session: false }), NoteRouter);
+
 export default app;

@@ -13,7 +13,11 @@ export const getUserById = async (id: string): Promise<IUser | null> => {
 };
 
 export const getUserByUsername = async ( username: string ): Promise<IUser | null> => {
-
   const response = await UserModel.findOne({ username });
   return response;
+};
+
+export const checkUserExist = async (username: string): Promise<boolean> => {
+  const response = await UserModel.findOne({ username });
+  return response ? true : false;
 };

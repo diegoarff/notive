@@ -1,72 +1,49 @@
 import { Request, Response } from "express";
-import { insertUser, getUserByUsername } from "../services/user.services";
+import {
+  insertUser,
+  checkUserExist,
+  getUserByUsername,
+} from "../services/user.services";
 import { IUser } from "../utils/interfaces";
-import createToken from "../utils/jwtToken";
-
-// TODO: Handle validations in another file, follow backend of podcast project
-// TODO: Provide better error messages
 
 export const register = async (req: Request, res: Response) => {
-  const { username, password, firstName, lastName }: IUser = req.body;
-
-  if (!username || !password || !firstName || !lastName) {
-    return res.status(400).json({ msg: "Please. Send your data" });
-  }
-
-  if (
-    typeof username !== "string" ||
-    typeof password !== "string" ||
-    typeof firstName !== "string" ||
-    typeof lastName !== "string"
-  ) {
-    return res
-      .status(400)
-      .json({ msg: "Please. Send the data in the correct format" });
-  }
-  
   try {
-    const checkUser = await getUserByUsername(username)
-  if (checkUser) {
-    return res.status(400)
-    .json({msg: "The user already exist"})
-  }
-  
-    const user = await insertUser(req.body);
-    return res.status(201).json(user);
+    const userExists = await checkUserExist(req.body.username);
+    if (userExists) {
+      return res
+        .status(400)
+        .json({ path: "username", msg: "Username is taken" });
+    }
+
+    await insertUser(req.body);
+
+    return res.status(201).json({ msg: "User created succesfully" });
   } catch (error) {
-    return res.status(500).json({ msg: "Server error" });
+    return res.status(500).json({ msg: "Internal server error in controller", error });
   }
 };
 
 export const login = async (req: Request, res: Response) => {
   const { username, password }: IUser = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ msg: "Please. Send your data" });
-  }
-
-  if (typeof username !== "string" || typeof password !== "string") {
-    return res
-      .status(400)
-      .json({ msg: "Please. Send the data in the correct format" });
-  }
-
   try {
     const user = await getUserByUsername(username);
 
     if (!user) {
-      return res.status(400).json({ msg: "The user does not exists" });
+      return res
+        .status(400)
+        .json({ path: "username", msg: "The user does not exist" });
     }
 
     const isMatch = await user.comparePassword(password);
     if (isMatch) {
-      return res.status(201).json({ user, token: createToken(user) });
+      return res.status(200).json({ token: user.createToken() });
     } else {
       return res
         .status(400)
-        .json({ msg: "The username or password are incorrect" });
+        .json({ path: "password", msg: "Password is incorrect" });
     }
   } catch (error) {
-    return res.status(500).json({ msg: "Server error" });
+    return res.status(500).json({ msg: "Internal server error" });
   }
 };
