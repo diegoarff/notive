@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import { AnyZodObject, ZodError } from "zod";
+import { Request, Response, NextFunction } from 'express';
+import { AnyZodObject, ZodError } from 'zod';
 
 // TODO: Parse params
 
@@ -14,12 +14,10 @@ export const validate = (schema: AnyZodObject) => {
           error.issues.map((issue) => ({
             path: issue.path,
             message: issue.message,
-          }))
+          })),
         );
       }
-      return res
-        .status(500)
-        .json({ msg: "Internal server error", error });
+      return res.status(500).json({ msg: 'Internal server error', error });
     }
   };
 };

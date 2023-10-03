@@ -1,5 +1,5 @@
-import FolderModel from "../models/folder";
-import { IFolder } from "../utils/interfaces";
+import FolderModel from '../models/folder';
+import { IFolder } from '../utils/interfaces';
 
 export const insertFolder = async (folderData: IFolder): Promise<IFolder> => {
   const response = new FolderModel(folderData);
@@ -8,7 +8,7 @@ export const insertFolder = async (folderData: IFolder): Promise<IFolder> => {
 };
 
 export const getFoldersByCreatorId = async (
-  creatorId: string
+  creatorId: string,
 ): Promise<IFolder[] | null> => {
   const response = await FolderModel.find({ creatorId }).exec();
   return response;
@@ -16,7 +16,7 @@ export const getFoldersByCreatorId = async (
 
 export const updateFolder = async (
   id: string,
-  folderData: IFolder
+  folderData: IFolder,
 ): Promise<IFolder | null> => {
   const response = await FolderModel.findByIdAndUpdate(id, folderData, {
     new: true,
@@ -31,5 +31,5 @@ export const eraseFolder = async (id: string): Promise<IFolder | null> => {
 
 export const checkFolderExists = async (folderId: string): Promise<boolean> => {
   const response = await FolderModel.exists({ _id: folderId });
-  return response ? true : false;
+  return response != null;
 };

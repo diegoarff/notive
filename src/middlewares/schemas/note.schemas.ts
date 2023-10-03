@@ -1,31 +1,31 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const titleSchema = z
   .string({
-    required_error: "Title is required",
-    invalid_type_error: "Title must be a string",
+    required_error: 'Title is required',
+    invalid_type_error: 'Title must be a string',
   })
-  .nonempty("Title cannot be empty")
-  .max(50, "Title must be at most 50 characters");
+  .nonempty('Title cannot be empty')
+  .max(50, 'Title must be at most 50 characters');
 
 const contentSchema = z
   .string({
-    required_error: "Content is required",
-    invalid_type_error: "Content must be a string",
+    required_error: 'Content is required',
+    invalid_type_error: 'Content must be a string',
   })
-  .max(500, "Content must be at most 500 characters");
+  .max(500, 'Content must be at most 500 characters');
 
 const creatorIdSchema = z
   .string({
-    required_error: "CreatorId is required",
-    invalid_type_error: "CreatorId must be a string",
+    required_error: 'CreatorId is required',
+    invalid_type_error: 'CreatorId must be a string',
   })
-  .nonempty("CreatorId cannot be empty");
+  .nonempty('CreatorId cannot be empty');
 
 const folderIdSchema = z
   .string({
-    required_error: "FolderId is required",
-    invalid_type_error: "FolderId must be a string",
+    required_error: 'FolderId is required',
+    invalid_type_error: 'FolderId must be a string',
   })
   .optional();
 
@@ -57,10 +57,10 @@ export const updateNoteSchema = z
 export const deleteNoteSchema = z.object({
   noteId: z
     .string({
-      required_error: "NoteId is required",
-      invalid_type_error: "NoteId must be a string",
+      required_error: 'NoteId is required',
+      invalid_type_error: 'NoteId must be a string',
     })
     .nonempty(
-      "NoteId cannot be empty. Please. Send the id of the note to delete"
+      'NoteId cannot be empty. Please. Send the id of the note to delete',
     ),
 });

@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import { IFolder } from "../utils/interfaces";
+import { Schema, model } from 'mongoose';
+import { IFolder } from '../utils/interfaces';
 
 const FolderSchema = new Schema<IFolder>(
   {
@@ -18,8 +18,8 @@ const FolderSchema = new Schema<IFolder>(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
-const FolderModel = model("folder", FolderSchema);
+const FolderModel = model('folder', FolderSchema);
 export default FolderModel;

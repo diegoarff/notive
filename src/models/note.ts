@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import { INote } from "../utils/interfaces";
+import { Schema, model } from 'mongoose';
+import { INote } from '../utils/interfaces';
 
 const NoteSchema = new Schema<INote>(
   {
@@ -22,8 +22,8 @@ const NoteSchema = new Schema<INote>(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
-const NoteModel = model("note", NoteSchema);
+const NoteModel = model('note', NoteSchema);
 export default NoteModel;
