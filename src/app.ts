@@ -1,11 +1,8 @@
 import express from "express";
 import cors from "cors";
 import passport from "passport";
-
-// Routes imports
-import AuthRouter from "./routes/auth.routes";
 import passportMiddleware from "./middlewares/passport";
-import NoteRouter from "./routes/note.routes";
+import mainRouter from "./routes/index.routes";
 
 // Inits
 const app = express();
@@ -24,7 +21,6 @@ app.get("/", (req, res) => {
   res.send(`The API is at http://localhost:${app.get("port")}`);
 });
 
-app.use("/auth", AuthRouter);
-app.use("/notes", passport.authenticate("jwt", { session: false }), NoteRouter);
+app.use(mainRouter);
 
 export default app;
