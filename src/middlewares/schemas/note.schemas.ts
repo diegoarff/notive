@@ -49,7 +49,16 @@ export const updateNoteSchema = z
     content: contentSchema,
     folderId: folderIdSchema,
   })
-  .partial();
+  .partial()
+  .superRefine(({ title, content, folderId }, ctx) => {
+    if (!title && !content && !folderId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'At least one field must be provided',
+        path: ['title', 'content', 'folderId'],
+      });
+    }
+  });
 
 // This would validate the param in the url.
 // To use this, consider implementing the params: req.params, body: req.body

@@ -9,10 +9,11 @@ const opts: StrategyOptions = {
 export default new Strategy(opts, async (payload, done) => {
   try {
     const user = await getUserById(payload.id);
-    if (user != null) {
+    if (user !== null) {
       done(null, user);
+    } else {
+      done(null, false);
     }
-    done(null, false);
   } catch (error) {
     console.log(error);
   }
