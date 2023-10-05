@@ -30,3 +30,13 @@ export const checkUserExistByUsername = async (
   const response = await UserModel.findOne({ username });
   return response != null;
 };
+
+export const updateUser = async (
+  id: string,
+  userData: IUser,
+): Promise<IUser | null> => {
+  const response = await UserModel.findByIdAndUpdate(id, userData, {
+    new: true,
+  }).exec();
+  return response;
+};

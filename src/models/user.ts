@@ -51,13 +51,9 @@ UserSchema.methods.updatePassword = async function (newPassword: string) {
 };
 
 UserSchema.methods.createToken = function (): string {
-  return jwt.sign(
-    { id: this.id, username: this.username },
-    process.env.JWT_SECRET as string,
-    {
-      expiresIn: 60 * 60 * 24, // a day,
-    },
-  );
+  return jwt.sign({ id: this.id }, process.env.JWT_SECRET as string, {
+    expiresIn: 60 * 60 * 24, // a day,
+  });
 };
 
 const UserModel = model('user', UserSchema);

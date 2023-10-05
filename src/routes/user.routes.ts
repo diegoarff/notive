@@ -1,6 +1,9 @@
 import { Router } from 'express';
-import { changePassword } from '../controllers/user.controller';
-import { changePasswordSchema } from '../middlewares/schemas/user.schemas';
+import { changePassword, updateProfile } from '../controllers/user.controller';
+import {
+  changePasswordSchema,
+  updateProfileSchema,
+} from '../middlewares/schemas/user.schemas';
 import { validate } from '../middlewares/validator';
 
 const router = Router();
@@ -10,5 +13,7 @@ router.put(
   validate(changePasswordSchema),
   changePassword,
 );
+
+router.put('/profile/:userId', validate(updateProfileSchema), updateProfile);
 
 export default router;
