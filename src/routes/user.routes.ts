@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { changePassword, updateProfile } from '../controllers/user.controller';
+import {
+  changePassword,
+  deleteAccount,
+  updateProfile,
+} from '../controllers/user.controller';
 import {
   changePasswordSchema,
   updateProfileSchema,
