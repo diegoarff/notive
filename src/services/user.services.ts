@@ -40,3 +40,8 @@ export const updateUser = async (
   }).exec();
   return response;
 };
+
+export const deleteUser = async (id: string): Promise<IUser | null> => {
+  const response = await UserModel.findByIdAndDelete(id).exec();
+  return response;
+};

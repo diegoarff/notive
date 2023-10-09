@@ -16,4 +16,6 @@ router.put(
 
 router.put('/profile/:userId', validate(updateProfileSchema), updateProfile);
 
+router.delete('/:userId', deleteAccount);
+
 export default router;

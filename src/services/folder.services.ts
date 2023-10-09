@@ -33,3 +33,9 @@ export const checkFolderExists = async (folderId: string): Promise<boolean> => {
   const response = await FolderModel.exists({ _id: folderId });
   return response != null;
 };
+
+export const eraseAllFolderByParamId = async (
+  paramId: string,
+): Promise<void> => {
+  await FolderModel.deleteMany({ paramId }).exec();
+};

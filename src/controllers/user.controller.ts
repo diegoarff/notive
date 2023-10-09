@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
-import { getUserById, updateUser } from '../services/user.services';
+import { deleteUser, getUserById, updateUser } from '../services/user.services';
+import { eraseAllNotesByParamId } from '../services/note.services';
+import { eraseAllFolderByParamId } from '../services/folder.services';
 
 export const changePassword = async (
   req: Request,
@@ -51,6 +53,33 @@ export const updateProfile = async (
     return res
       .status(200)
       .json({ msg: 'Profile updated succesfully', data: user });
+  } catch (error) {
+    return res.status(500).json({ msg: 'Internal server error', error });
+  }
+};
+
+export const deleteAccount = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const { userId } = req.params;
+  if (!userId) {
+    return res.status(400).json({ msg: 'userId must be provided' });
+  }
+
+  try {
+    const userExist = await getUserById(userId);
+    if (!userExist) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    await eraseAllNotesByParamId(userId);
+    await eraseAllFolderByParamId(userId);
+    await deleteUser(userId);
+
+    return res
+      .status(200)
+      .json({ msg: 'Account deleted succesfully', data: userExist });
   } catch (error) {
     return res.status(500).json({ msg: 'Internal server error', error });
   }

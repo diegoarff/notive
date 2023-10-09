@@ -7,6 +7,7 @@ import {
   updateFolder,
 } from '../services/folder.services';
 import { checkUserExistsById } from '../services/user.services';
+import { eraseNote, getNotesByFolderId } from '../services/note.services';
 
 export const postFolder = async (
   req: Request,
@@ -83,6 +84,13 @@ export const deleteFolder = async (
     const folderExists = await checkFolderExists(folderId);
     if (!folderExists) {
       return res.status(404).json({ msg: 'Folder not found' });
+    }
+
+    const notes = await getNotesByFolderId(folderId);
+    if (notes) {
+      notes.forEach(async (note) => {
+        await eraseNote(note._id);
+      });
     }
 
     const deletedFolder = await eraseFolder(folderId);

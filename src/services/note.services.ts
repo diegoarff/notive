@@ -12,13 +12,6 @@ export const insertNote = async (noteData: INote): Promise<INote> => {
   return response;
 };
 
-export const getNotesByCreatorId = async (
-  creatorId: string,
-): Promise<INote[] | null> => {
-  const response = await NoteModel.find({ creatorId }).exec();
-  return response;
-};
-
 export const updateNote = async (
   id: string,
   noteData: INote,
@@ -32,4 +25,24 @@ export const updateNote = async (
 export const eraseNote = async (id: string): Promise<INote | null> => {
   const response = await NoteModel.findByIdAndDelete(id).exec();
   return response;
+};
+
+export const getNotesByCreatorId = async (
+  creatorId: string,
+): Promise<INote[] | null> => {
+  const response = await NoteModel.find({ creatorId }).exec();
+  return response;
+};
+
+export const getNotesByFolderId = async (
+  folderId: string,
+): Promise<INote[] | null> => {
+  const response = await NoteModel.find({ folderId }).exec();
+  return response;
+};
+
+export const eraseAllNotesByParamId = async (
+  paramId: string,
+): Promise<void> => {
+  await NoteModel.deleteMany({ paramId }).exec();
 };
