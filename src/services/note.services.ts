@@ -41,8 +41,8 @@ export const getNotesByFolderId = async (
   return response;
 };
 
-export const eraseAllNotesByParamId = async (
-  paramId: string,
+export const eraseAllNotesByCreatorId = async (
+  creatorId: string,
 ): Promise<void> => {
-  await NoteModel.deleteMany({ paramId }).exec();
+  await NoteModel.deleteMany({ creatorId }).exec();
 };

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { deleteUser, getUserById, updateUser } from '../services/user.services';
-import { eraseAllNotesByParamId } from '../services/note.services';
-import { eraseAllFolderByParamId } from '../services/folder.services';
+import { eraseAllNotesByCreatorId } from '../services/note.services';
+import { eraseAllFolderByCreatorId } from '../services/folder.services';
 
 export const changePassword = async (
   req: Request,
@@ -73,8 +73,8 @@ export const deleteAccount = async (
       return res.status(404).json({ msg: 'User not found' });
     }
 
-    await eraseAllNotesByParamId(userId);
-    await eraseAllFolderByParamId(userId);
+    await eraseAllNotesByCreatorId(userId);
+    await eraseAllFolderByCreatorId(userId);
     await deleteUser(userId);
 
     return res
