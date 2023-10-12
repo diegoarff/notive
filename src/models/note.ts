@@ -1,21 +1,29 @@
-import { Schema } from "mongoose";
-import Note from "../interfaces/note.interfaces";
+import { Schema, model } from 'mongoose';
+import { INote } from '../utils/interfaces';
 
-
-
-const NoteSchema = new Schema<Note>(
-{
-    creator: {
-        type: String
+const NoteSchema = new Schema<INote>(
+  {
+    creatorId: {
+      type: String,
+      required: true,
     },
-    name: {
-        type: String
+    title: {
+      type: String,
+      required: true,
     },
-    folder: {
-        type: String
+    folderId: {
+      type: String,
     },
     content: {
-        type: String
-    }
-}
-)
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
+);
+
+const NoteModel = model('note', NoteSchema);
+export default NoteModel;
