@@ -4,6 +4,7 @@ import {
   postNote,
   putNote,
   deleteNote,
+  getNotesFromFolder,
 } from '../controllers/note.controller';
 import { validate } from '../middlewares/validator';
 import {
@@ -14,6 +15,8 @@ import {
 const router = Router();
 
 router.get('/user/:creatorId', getNotes);
+
+router.get('/folder/:folderId', getNotesFromFolder);
 
 router.post('/', validate(createNoteSchema), postNote);
 

@@ -27,7 +27,9 @@ export const changePassword = async (
 
     await user.updatePassword(newPassword);
 
-    return res.status(200).json({ msg: 'Password changed succesfully' });
+    return res
+      .status(200)
+      .json({ status: 'success', msg: 'Password changed succesfully' });
   } catch (error) {
     return res.status(500).json({ msg: 'Internal server error', error });
   }
@@ -50,9 +52,11 @@ export const updateProfile = async (
 
     const user = await updateUser(userId, req.body);
 
-    return res
-      .status(200)
-      .json({ msg: 'Profile updated succesfully', data: user });
+    return res.status(200).json({
+      status: 'success',
+      msg: 'Profile updated succesfully',
+      data: user,
+    });
   } catch (error) {
     return res.status(500).json({ msg: 'Internal server error', error });
   }
@@ -77,9 +81,11 @@ export const deleteAccount = async (
     await eraseAllFolderByCreatorId(userId);
     await deleteUser(userId);
 
-    return res
-      .status(200)
-      .json({ msg: 'Account deleted succesfully', data: userExist });
+    return res.status(200).json({
+      status: 'success',
+      msg: 'Account deleted succesfully',
+      data: userExist,
+    });
   } catch (error) {
     return res.status(500).json({ msg: 'Internal server error', error });
   }

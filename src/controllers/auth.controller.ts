@@ -13,16 +13,21 @@ export const register = async (
   try {
     const userExists = await checkUserExistByUsername(req.body.username);
     if (userExists) {
-      return res
-        .status(400)
-        .json({ path: 'username', msg: 'Username is taken' });
+      return res.status(400).json({
+        status: 'error',
+        msg: 'Username is taken',
+      });
     }
 
     await insertUser(req.body);
 
-    return res.status(201).json({ msg: 'User created succesfully' });
+    return res
+      .status(201)
+      .json({ status: 'success', msg: 'User created succesfully' });
   } catch (error) {
-    return res.status(500).json({ msg: 'Internal server error', error });
+    return res
+      .status(500)
+      .json({ status: 'error', msg: 'Internal server error', error });
   }
 };
 
@@ -35,18 +40,24 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     if (user == null) {
       return res
         .status(400)
-        .json({ path: 'username', msg: 'The user does not exist' });
+        .json({ status: 'error', msg: 'The user does not exist' });
     }
 
     const isMatch = await user.comparePassword(password);
     if (isMatch) {
-      return res.status(200).json({ token: user.createToken() });
+      return res.status(200).json({
+        status: 'success',
+        msg: 'User authenticated successfully',
+        data: { token: user.createToken() },
+      });
     } else {
       return res
         .status(400)
-        .json({ path: 'password', msg: 'Password is incorrect' });
+        .json({ status: 'error', msg: 'Password is incorrect' });
     }
   } catch (error) {
-    return res.status(500).json({ msg: 'Internal server error', error });
+    return res
+      .status(500)
+      .json({ status: 'error', msg: 'Internal server error', error });
   }
 };
