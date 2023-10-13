@@ -7,9 +7,6 @@ import mainRouter from './routes/index.routes';
 // Inits
 const app = express();
 
-// Settings
-app.set('port', process.env.PORT ?? 4000);
-
 // Middlewares
 app.use(cors());
 app.use(express.json());
