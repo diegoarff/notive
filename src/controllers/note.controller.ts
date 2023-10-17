@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { IRequest } from '../utils/interfaces';
 import {
   checkNoteExists,
   getNotesByCreatorId,
@@ -10,11 +11,11 @@ import {
 import { checkUserExistsById } from '../services/user.services';
 
 export const postNote = async (
-  req: Request,
+  req: IRequest,
   res: Response,
 ): Promise<Response> => {
   try {
-    const note = await insertNote(req.body);
+    const note = await insertNote({ ...req.body, creatorId: req.creatorId });
     return res
       .status(201)
       .json({ status: 'success', msg: 'Note created succesfully', data: note });
@@ -57,7 +58,7 @@ export const getNotes = async (
 };
 
 export const putNote = async (
-  req: Request,
+  req: IRequest,
   res: Response,
 ): Promise<Response> => {
   const { noteId } = req.params;
@@ -73,7 +74,10 @@ export const putNote = async (
       return res.status(404).json({ status: 'error', msg: 'Note not found' });
     }
 
-    const note = await updateNote(noteId, req.body);
+    const note = await updateNote(noteId, {
+      ...req.body,
+      creatorId: req.creatorId,
+    });
 
     return res
       .status(200)

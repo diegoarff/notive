@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
+import { getter } from '../middlewares/getter';
 
 import authRouter from './auth.routes';
 import noteRouter from './note.routes';
@@ -12,6 +13,7 @@ router.use('/auth', authRouter);
 router.use(
   '/notes',
   passport.authenticate('jwt', { session: false }),
+  getter,
   noteRouter,
 );
 router.use(

@@ -48,7 +48,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       return res.status(200).json({
         status: 'success',
         msg: 'User authenticated successfully',
-        data: { token: user.createToken() },
+        data: { token: user.createToken(), userId: user._id },
       });
     } else {
       return res
