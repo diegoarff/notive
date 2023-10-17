@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { Document } from 'mongoose';
 
 export interface IUser extends Document {
@@ -21,4 +22,8 @@ export interface IFolder extends Document {
   name: string;
   color?: string;
   creatorId: string;
+}
+
+export interface IRequest extends Request {
+  creatorId?: string;
 }

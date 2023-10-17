@@ -15,13 +15,6 @@ const contentSchema = z
   })
   .max(500, 'Content must be at most 500 characters');
 
-const creatorIdSchema = z
-  .string({
-    required_error: 'CreatorId is required',
-    invalid_type_error: 'CreatorId must be a string',
-  })
-  .nonempty('CreatorId cannot be empty');
-
 const folderIdSchema = z
   .string({
     required_error: 'FolderId is required',
@@ -29,17 +22,9 @@ const folderIdSchema = z
   })
   .optional();
 
-// This would validate the param in the url.
-// To use this, consider implementing the params: req.params, body: req.body
-// design in the validator
-export const getNotesSchema = z.object({
-  creatorId: creatorIdSchema,
-});
-
 export const createNoteSchema = z.object({
   title: titleSchema,
   content: contentSchema,
-  creatorId: creatorIdSchema,
   folderId: folderIdSchema,
 });
 

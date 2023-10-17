@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { IRequest } from '../utils/interfaces';
 import {
   checkFolderExists,
   eraseFolder,
@@ -10,11 +11,14 @@ import { checkUserExistsById } from '../services/user.services';
 import { eraseNote, getNotesByFolderId } from '../services/note.services';
 
 export const postFolder = async (
-  req: Request,
+  req: IRequest,
   res: Response,
 ): Promise<Response> => {
   try {
-    const folder = await insertFolder(req.body);
+    const folder = await insertFolder({
+      ...req.body,
+      creatorId: req.creatorId,
+    });
     return res.status(201).json({
       status: 'success',
       msg: 'Folder created succesfully',
@@ -59,7 +63,7 @@ export const getFolders = async (
 };
 
 export const putFolder = async (
-  req: Request,
+  req: IRequest,
   res: Response,
 ): Promise<Response> => {
   const { folderId } = req.params;
@@ -75,7 +79,10 @@ export const putFolder = async (
       return res.status(404).json({ status: 'error', msg: 'Folder not found' });
     }
 
-    const folder = await updateFolder(folderId, req.body);
+    const folder = await updateFolder(folderId, {
+      ...req.body,
+      creatorId: req.creatorId,
+    });
 
     return res.status(200).json({
       status: 'success',
