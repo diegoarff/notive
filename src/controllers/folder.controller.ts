@@ -15,10 +15,8 @@ export const postFolder = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    const folder = await insertFolder({
-      ...req.body,
-      creatorId: req.creatorId,
-    });
+    const { creatorId } = req;
+    const folder = await insertFolder({ ...req.body, creatorId });
     return res.status(201).json({
       status: 'success',
       msg: 'Folder created succesfully',

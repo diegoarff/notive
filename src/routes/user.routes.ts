@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   changePassword,
   deleteAccount,
+  getProfile,
   updateProfile,
 } from '../controllers/user.controller';
 import {
@@ -17,6 +18,8 @@ router.put(
   validate(changePasswordSchema),
   changePassword,
 );
+
+router.get('/profile/:userId', getProfile);
 
 router.put('/profile/:userId', validate(updateProfileSchema), updateProfile);
 
