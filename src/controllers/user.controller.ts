@@ -3,6 +3,35 @@ import { deleteUser, getUserById, updateUser } from '../services/user.services';
 import { eraseAllNotesByCreatorId } from '../services/note.services';
 import { eraseAllFolderByCreatorId } from '../services/folder.services';
 
+export const getProfile = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const { userId } = req.params;
+  if (!userId) {
+    return res.status(400).json({ msg: 'userId must be provided' });
+  }
+
+  try {
+    const user = await getUserById(userId);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    const userWithoutPassword = {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
+
+    return res
+      .status(200)
+      .json({ status: 'success', data: userWithoutPassword });
+  } catch (error) {
+    return res.status(500).json({ msg: 'Internal server error', error });
+  }
+};
+
 export const changePassword = async (
   req: Request,
   res: Response,

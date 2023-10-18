@@ -19,6 +19,7 @@ router.use(
 router.use(
   '/folders',
   passport.authenticate('jwt', { session: false }),
+  getter,
   folderRouter,
 );
 router.use(
