@@ -13,7 +13,7 @@ const contentSchema = z
     required_error: 'Content is required',
     invalid_type_error: 'Content must be a string',
   })
-  .max(500, 'Content must be at most 500 characters');
+  .max(2000, 'Content must be at most 2000 characters');
 
 const folderIdSchema = z
   .string({
